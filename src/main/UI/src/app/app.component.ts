@@ -17,6 +17,8 @@ export class AppComponent implements OnInit{
 
   welcomeMessageEnglish$!: Observable<string>
   welcomeMessageFrench$!: Observable<string>
+
+  // Author: Stanton Barbadillo
   constructor(private httpClient:HttpClient){}
 
   private baseURL:string='http://localhost:8080';
@@ -55,9 +57,12 @@ export class AppComponent implements OnInit{
     onSubmit({value,valid}:{value:Roomsearch,valid:boolean}){
       this.getAll().subscribe(
 
-        rooms => {console.log(Object.values(rooms)[0]);this.rooms=<Room[]>Object.values(rooms)[0]; }
-
-
+        rooms => {
+          console.log(Object.values(rooms)[0]);
+          this.rooms=<Room[]>Object.values(rooms)[0];
+          // C2 - Code to add the CAD/EUR "prices"
+          this.rooms.forEach( room => { room.priceCAD = room.price; room.priceEUR = room.price})
+        }
       );
     }
     reserveRoom(value:string){
@@ -105,6 +110,8 @@ export interface Room{
   id:string;
   roomNumber:string;
   price:string;
+  priceCAD:string;
+  priceEUR:string;
   links:string;
 
 }
