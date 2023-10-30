@@ -1,7 +1,6 @@
 package edu.wgu.d387_sample_code;
 
-import internalization.TimezoneConversion;
-import internalization.WelcomeMessage;
+import edu.wgu.d387_sample_code.intrl.DisplayMessage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -17,16 +16,17 @@ public class D387SampleCodeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(D387SampleCodeApplication.class, args);
 
-		// Create threads for the Welcome Message in French and English
-		WelcomeMessage welcomeMessageEnglish = new WelcomeMessage(Locale.US);
-		Thread englishWelcomeThread = new Thread(welcomeMessageEnglish);
-		englishWelcomeThread.start();
+		// Create DisplayMessage instances for each locale
+		DisplayMessage displayMessageEnglish = new DisplayMessage(Locale.US);
+		DisplayMessage displayMessageFrench = new DisplayMessage(Locale.CANADA_FRENCH);
 
-		WelcomeMessage welcomeMessageFrench = new WelcomeMessage(Locale.CANADA_FRENCH);
-		Thread frenchWelcomeThread = new Thread(welcomeMessageFrench);
-		frenchWelcomeThread.start();
+		// Create threads for each DisplayMessage instance
+		Thread englishThread = new Thread(displayMessageEnglish);
+		Thread frenchThread = new Thread(displayMessageFrench);
 
-		// Test time conversion
-		System.out.println("Testing time conversion: " + TimezoneConversion.getTime());
+		// Start threads
+		englishThread.start();
+		frenchThread.start();
 	}
+
 }
